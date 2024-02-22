@@ -3,25 +3,25 @@ plugins:
   - meilisync.plugin.Plugin
 progress:
   type: file
+  path: progress.json
 source:
   type: mysql
-  host: 127.0.0.1
+  host: localhost
   port: 3306
   user: root
-  password: '123456'
-  database: test
+  password: "example"
+  database: local
 meilisearch:
-  api_url: http://192.168.123.205:7700
-  api_key:
+  api_url: http://localhost:7700
+  api_key: "09a8bf9df1440732827dc16ad145d9fde1785e60ddad07e3ef3817494c7579b8"
   insert_size: 1000
   insert_interval: 10
 sync:
-  - table: test
-    index: test
+  - table: companies
+    index: companies
+    plugins:
+      - meilisync.plugin.Plugin
     full: true
     fields:
       id:
-      age:
-sentry:
-  dsn: ''
-  environment: 'production'
+      name:

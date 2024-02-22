@@ -1,3 +1,7 @@
+import codecs
+
+codecs.register(lambda name: codecs.lookup('utf8') if name == 'utf8mb3' else None)
+
 import asyncio
 from typing import List, Optional
 
@@ -17,13 +21,13 @@ app = typer.Typer()
 
 @app.callback()
 def callback(
-    context: typer.Context,
-    config_file: str = typer.Option(
-        "config.yml",
-        "-c",
-        "--config",
-        help="Config file path",
-    ),
+        context: typer.Context,
+        config_file: str = typer.Option(
+            "config.yml",
+            "-c",
+            "--config",
+            help="Config file path",
+        ),
 ):
     async def _():
         if context.invoked_subcommand == "version":
@@ -70,7 +74,7 @@ def version():
 
 @app.command(help="Start meilisync")
 def start(
-    context: typer.Context,
+        context: typer.Context,
 ):
     current_progress = context.obj["current_progress"]
     source = context.obj["source"]
@@ -142,13 +146,13 @@ def start(
 
 @app.command(help="Refresh all data by swap index")
 def refresh(
-    context: typer.Context,
-    table: Optional[List[str]] = typer.Option(
-        None, "-t", "--table", help="Table name, if not set, all tables"
-    ),
-    size: int = typer.Option(
-        10000, "-s", "--size", help="Size of data for each insert to be inserted into MeiliSearch"
-    ),
+        context: typer.Context,
+        table: Optional[List[str]] = typer.Option(
+            None, "-t", "--table", help="Table name, if not set, all tables"
+        ),
+        size: int = typer.Option(
+            10000, "-s", "--size", help="Size of data for each insert to be inserted into MeiliSearch"
+        ),
 ):
     async def _():
         settings = context.obj["settings"]
@@ -180,10 +184,10 @@ def refresh(
     help="Check whether the data in the database is consistent with the data in MeiliSearch"
 )
 def check(
-    context: typer.Context,
-    table: Optional[List[str]] = typer.Option(
-        None, "-t", "--table", help="Table name, if not set, all tables"
-    ),
+        context: typer.Context,
+        table: Optional[List[str]] = typer.Option(
+            None, "-t", "--table", help="Table name, if not set, all tables"
+        ),
 ):
     async def _():
         settings = context.obj["settings"]

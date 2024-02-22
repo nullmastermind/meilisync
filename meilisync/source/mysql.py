@@ -22,11 +22,11 @@ class MySQL(Source):
     type = SourceType.mysql
 
     def __init__(
-        self,
-        progress: dict,
-        tables: List[str],
-        server_id: int = 1,
-        **kwargs,
+            self,
+            progress: dict,
+            tables: List[str],
+            server_id: int = 1,
+            **kwargs,
     ):
         super().__init__(progress, tables, **kwargs)
         self.server_id = int(server_id)
@@ -91,6 +91,7 @@ class MySQL(Source):
             only_schemas=[self.database],
             only_tables=[f"{self.database}.{table}" for table in self.tables],
             only_events=[WriteRowsEvent, UpdateRowsEvent, DeleteRowsEvent],
+            # filter_non_implemented_events=False,
         )
 
     async def __aiter__(self):
@@ -105,6 +106,9 @@ class MySQL(Source):
         while True:
             try:
                 async for event in self.stream:
+                    if not event.rows:
+                        continue
+
                     if isinstance(event, WriteRowsEvent):
                         event_type = EventType.create
                         data = event.rows[0]["values"]

@@ -17,9 +17,9 @@ class Source(BaseModel):
 
 class MeiliSearch(BaseModel):
     api_url: str
-    api_key: str | None = None
-    insert_size: int | None = None
-    insert_interval: int | None = None
+    api_key: str = None
+    insert_size: int = None
+    insert_interval: int = None
 
 
 class BasePlugin(BaseModel):
@@ -40,8 +40,8 @@ class Sync(BasePlugin):
     table: str
     pk: str = "id"
     full: bool = False
-    index: str | None = None
-    fields: dict | None = None
+    index: str = None
+    fields: dict = None
 
     @property
     def index_name(self):
@@ -69,7 +69,7 @@ class Settings(BaseSettings, BasePlugin):
     source: Source
     meilisearch: MeiliSearch
     sync: List[Sync]
-    sentry: Sentry | None = None
+    sentry: None = None
 
     @property
     def tables(self):
